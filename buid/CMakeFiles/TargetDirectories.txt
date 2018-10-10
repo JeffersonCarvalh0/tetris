@@ -1,0 +1,4 @@
+/home/jefferson/games/tetris/buid/CMakeFiles/rebuild_cache.dir
+/home/jefferson/games/tetris/buid/CMakeFiles/tests.dir
+/home/jefferson/games/tetris/buid/CMakeFiles/edit_cache.dir
+/home/jefferson/games/tetris/buid/CMakeFiles/main.dir
