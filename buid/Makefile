@@ -143,6 +143,7 @@ src/block.o: src/block.cpp.o
 # target to build an object file
 src/block.cpp.o:
 	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/block.cpp.o
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/block.cpp.o
 .PHONY : src/block.cpp.o
 
 src/block.i: src/block.cpp.i
@@ -152,6 +153,7 @@ src/block.i: src/block.cpp.i
 # target to preprocess a source file
 src/block.cpp.i:
 	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/block.cpp.i
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/block.cpp.i
 .PHONY : src/block.cpp.i
 
 src/block.s: src/block.cpp.s
@@ -161,7 +163,35 @@ src/block.s: src/block.cpp.s
 # target to generate assembly for a file
 src/block.cpp.s:
 	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/src/block.cpp.s
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/block.cpp.s
 .PHONY : src/block.cpp.s
+
+src/main.o: src/main.cpp.o
+
+.PHONY : src/main.o
+
+# target to build an object file
+src/main.cpp.o:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
+
+src/main.i: src/main.cpp.i
+
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.cpp.i:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
+
+src/main.s: src/main.cpp.s
+
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.cpp.s:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
 
 test/block.spec.o: test/block.spec.cpp.o
 
@@ -230,6 +260,9 @@ help:
 	@echo "... src/block.o"
 	@echo "... src/block.i"
 	@echo "... src/block.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
 	@echo "... test/block.spec.o"
 	@echo "... test/block.spec.i"
 	@echo "... test/block.spec.s"

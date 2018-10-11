@@ -1,3 +1,4 @@
+# include <SFML/Window.hpp>
 # include <SFML/Graphics.hpp>
 # include "defs.h"
 
@@ -11,5 +12,5 @@ public:
     int getX();
     int getY();
     void move(Direction direction);
-    void draw();
-}
+    void draw(sf::RenderWindow &window);
+};

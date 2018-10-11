@@ -1,0 +1,1 @@
+/usr/bin/c++   -Wall -g   CMakeFiles/main.dir/src/block.cpp.o CMakeFiles/main.dir/src/main.cpp.o  -o main /usr/lib/x86_64-linux-gnu/libsfml-graphics.so /usr/lib/x86_64-linux-gnu/libsfml-window.so /usr/lib/x86_64-linux-gnu/libsfml-system.so 

@@ -32,7 +32,7 @@ SCENARIO("Block") {
             }
         }
 
-        WHEN("The block is at position 0, 1 and moved down") {
+        WHEN("The block is at position 1, 0 and moved down") {
             block.move(DOWN);
 
             THEN("It should move one position down") {

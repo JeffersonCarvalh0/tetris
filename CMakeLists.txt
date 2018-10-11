@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.7.2)
-project(boilerplate)
+project(tetris)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "-Wall -g")
 
@@ -22,3 +22,4 @@ target_link_libraries(main ${SFML_LIBRARIES})
 file(GLOB TESTS "test/*.cpp")
 add_executable(tests ${TESTS} ${SOURCE_FILES} ${HEADER_FILES})
 target_include_directories(tests PRIVATE ${HEADER_DIRECTORY})
+target_link_libraries(tests ${SFML_LIBRARIES})

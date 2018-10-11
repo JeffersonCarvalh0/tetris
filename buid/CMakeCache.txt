@@ -114,7 +114,7 @@ CMAKE_OBJCOPY:FILEPATH=/usr/bin/objcopy
 CMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=boilerplate
+CMAKE_PROJECT_NAME:STATIC=tetris
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -209,6 +209,12 @@ boilerplate_BINARY_DIR:STATIC=/home/jefferson/games/tetris/buid
 
 //Value Computed by CMake
 boilerplate_SOURCE_DIR:STATIC=/home/jefferson/games/tetris
+
+//Value Computed by CMake
+tetris_BINARY_DIR:STATIC=/home/jefferson/games/tetris/buid
+
+//Value Computed by CMake
+tetris_SOURCE_DIR:STATIC=/home/jefferson/games/tetris
 
 
 ########################

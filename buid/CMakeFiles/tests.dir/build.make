@@ -142,6 +142,9 @@ tests: CMakeFiles/tests.dir/test/block.spec.cpp.o
 tests: CMakeFiles/tests.dir/test/tests-main.cpp.o
 tests: CMakeFiles/tests.dir/src/block.cpp.o
 tests: CMakeFiles/tests.dir/build.make
+tests: /usr/lib/x86_64-linux-gnu/libsfml-graphics.so
+tests: /usr/lib/x86_64-linux-gnu/libsfml-window.so
+tests: /usr/lib/x86_64-linux-gnu/libsfml-system.so
 tests: CMakeFiles/tests.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/jefferson/games/tetris/buid/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable tests"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/tests.dir/link.txt --verbose=$(VERBOSE)

@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/block.h
+SFML/Window.hpp
+-
+SFML/Graphics.hpp
+-
+defs.h
+../include/defs.h
+
+../include/defs.h
+
+/home/jefferson/games/tetris/src/block.cpp
+block.h
+/home/jefferson/games/tetris/src/block.h
+
+/home/jefferson/games/tetris/src/main.cpp
+SFML/Graphics.hpp
+-
+defs.h
+/home/jefferson/games/tetris/src/defs.h
+
