@@ -1,44 +1,46 @@
 # include <SFML/Graphics.hpp>
+# include <iostream>
 # include "defs.h"
 # include "tetrimino.h"
 
-int main() {
-    sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Tetris");
+class Window {
+public:
+    sf::RenderWindow window;
+    T t;
 
-    while (window.isOpen()) {
-        sf::Event event;
+    Window() {
+        window.create(sf::VideoMode(WIDTH, HEIGHT), "Tetris");
 
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) window.close();
+        while (window.isOpen()) {
+            sf::Event event;
+
+            while (window.pollEvent(event)) {
+                if (event.type == sf::Event::Closed) window.close();
+                if (event.type == sf::Event::KeyPressed) keyPressed();
+            }
+            update();
         }
+    }
 
+    void update() {
         window.clear(sf::Color::Black);
-
-        I i;
-        J j;
-        L l;
-        O o;
-        S s;
-        T t;
-        Z z;
-
-        j.move(0, BLOCK_SIZE * 2);
-        l.move(0, BLOCK_SIZE * 4);
-        o.move(0, BLOCK_SIZE * 6);
-        s.move(0, BLOCK_SIZE * 8);
-        t.move(0, BLOCK_SIZE * 10);
-        z.move(0, BLOCK_SIZE * 12);
-
-        window.draw(i);
-        window.draw(j);
-        window.draw(l);
-        window.draw(o);
-        window.draw(s);
         window.draw(t);
-        window.draw(z);
-
         window.display();
     }
 
+    void keyPressed() {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) t.move(0, -BLOCK_SIZE);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) t.move(-BLOCK_SIZE, 0);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) t.move(0, BLOCK_SIZE);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) t.move(BLOCK_SIZE, 0);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) t.rotate(-90);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) t.rotate(90);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) window.close();
+        std::cout << t.getOrigin().x << ' ' << t.getOrigin().y << '\n';
+    }
+};
+
+int main() {
+    Window window;
     return 0;
 }
