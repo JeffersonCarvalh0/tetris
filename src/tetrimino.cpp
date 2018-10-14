@@ -21,58 +21,100 @@ void Tetrimino::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(blocks, states);
 }
 
-I::I() {
+Tetriminoes::I::I() {
+    center.x = (4 * BLOCK_SIZE) + (BLOCK_SIZE / 2);
+    center.y = BLOCK_SIZE + (BLOCK_SIZE / 2);
+    setOrigin(center);
+
     color = sf::Color::Cyan;
     createBlock(3, 1, 0);
     createBlock(4, 1, 1);
     createBlock(5, 1, 2);
     createBlock(6, 1, 3);
+
+    move(center);
 }
 
-J::J() {
+Tetriminoes::J::J() {
+    center.x = (4 * BLOCK_SIZE) + (BLOCK_SIZE / 2);
+    center.y = (2 * BLOCK_SIZE) + (BLOCK_SIZE / 2);
+    setOrigin(center);
+
     color = sf::Color::Blue;
     createBlock(5, 1, 0);
     createBlock(3, 2, 1);
     createBlock(4, 2, 2);
     createBlock(5, 2, 3);
+
+    move(center);
 }
 
-L::L() {
+Tetriminoes::L::L() {
+    center.x = (4 * BLOCK_SIZE) + (BLOCK_SIZE / 2);
+    center.y = (2 * BLOCK_SIZE) + (BLOCK_SIZE / 2);
+    setOrigin(center);
+
     color = sf::Color(255, 165, 0);
     createBlock(3, 1, 0);
     createBlock(3, 2, 1);
     createBlock(4, 2, 2);
     createBlock(5, 2, 3);
+
+    move(center);
 }
 
-O::O() {
+Tetriminoes::O::O() {
+    center.x = (5 * BLOCK_SIZE);
+    center.y = (2 * BLOCK_SIZE);
+    setOrigin(center);
+
     color = sf::Color::Yellow;
     createBlock(4, 1, 0);
     createBlock(5, 1, 1);
     createBlock(4, 2, 2);
     createBlock(5, 2, 3);
+
+    move(center);
 }
 
-S::S() {
+Tetriminoes::S::S() {
+    center.x = (4 * BLOCK_SIZE) + (BLOCK_SIZE / 2);
+    center.y = (2 * BLOCK_SIZE) + (BLOCK_SIZE / 2);
+    setOrigin(center);
+
     color = sf::Color::Green;
     createBlock(5, 1, 0);
     createBlock(4, 1, 1);
     createBlock(4, 2, 2);
     createBlock(3, 2, 3);
+
+    move(center);
 }
 
-T::T() {
+Tetriminoes::T::T() {
+    center.x = (4 * BLOCK_SIZE) + (BLOCK_SIZE / 2);
+    center.y = (2 * BLOCK_SIZE) + (BLOCK_SIZE / 2);
+    setOrigin(center);
+
     color = sf::Color::Magenta;
     createBlock(4, 1, 0);
     createBlock(3, 2, 1);
     createBlock(4, 2, 2);
     createBlock(5, 2, 3);
+
+    move(center);
 }
 
-Z::Z() {
+Tetriminoes::Z::Z() {
+    center.x = (4 * BLOCK_SIZE) + (BLOCK_SIZE / 2);
+    center.y = (2 * BLOCK_SIZE) + (BLOCK_SIZE / 2);
+    setOrigin(center);
+
     color = sf::Color::Red;
     createBlock(3, 1, 0);
     createBlock(4, 1, 1);
     createBlock(4, 2, 2);
     createBlock(5, 2, 3);
+
+    move(center);
 }

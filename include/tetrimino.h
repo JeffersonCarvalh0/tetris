@@ -8,6 +8,7 @@
 class Tetrimino : public sf::Drawable, public sf::Transformable {
 protected:
     sf::VertexArray blocks;
+    sf::Vector2f center;
     sf::Color color;
 
 protected:
@@ -18,39 +19,41 @@ public:
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 };
 
-class I : public Tetrimino {
-public:
-    I();
-};
+namespace Tetriminoes {
+    class I : public Tetrimino {
+    public:
+        I();
+    };
 
-class J : public Tetrimino {
-public:
-    J();
-};
+    class J : public Tetrimino {
+    public:
+        J();
+    };
 
-class L : public Tetrimino {
-public:
-    L();
-};
+    class L : public Tetrimino {
+    public:
+        L();
+    };
 
-class O : public Tetrimino {
-public:
-    O();
-};
+    class O : public Tetrimino {
+    public:
+        O();
+    };
 
-class S : public Tetrimino {
-public:
-    S();
-};
+    class S : public Tetrimino {
+    public:
+        S();
+    };
 
-class T : public Tetrimino {
-public:
-    T();
-};
+    class T : public Tetrimino {
+    public:
+        T();
+    };
 
-class Z : public Tetrimino {
-public:
-    Z();
-};
+    class Z : public Tetrimino {
+    public:
+        Z();
+    };
+}
 
 # endif /* end of include guard: TETRIMINO_h */
