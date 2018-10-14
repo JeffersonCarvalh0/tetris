@@ -14,8 +14,8 @@ void Tetrimino::createBlock(int x, int y, int n, int t) {
     blocks[n + 3].position = sf::Vector2f(x, y + BLOCK_SIZE);
 
     blocks[n + 0].texCoords = sf::Vector2f(t * BLOCK_SIZE, 0);
-    blocks[n + 1].texCoords = sf::Vector2f((t * BLOCK_SIZE) + BLOCK_SIZE, 0);
-    blocks[n + 2].texCoords = sf::Vector2f((t * BLOCK_SIZE + BLOCK_SIZE), BLOCK_SIZE);
+    blocks[n + 1].texCoords = sf::Vector2f((t + 1) * BLOCK_SIZE, 0);
+    blocks[n + 2].texCoords = sf::Vector2f((t + 1) * BLOCK_SIZE, BLOCK_SIZE);
     blocks[n + 3].texCoords = sf::Vector2f(t * BLOCK_SIZE, BLOCK_SIZE);
 }
 
