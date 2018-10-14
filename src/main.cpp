@@ -8,13 +8,16 @@
 class Window {
 public:
     sf::RenderWindow window;
+    sf::Texture tileset;
     std::unique_ptr<Tetrimino> t;
-    sf::Transform rotation;
+
 
     Window() {
         window.create(sf::VideoMode(WIDTH, HEIGHT), "Tetris");
+        tileset.loadFromFile("../assets/textures/blocks.png");
+        tileset.setSmooth(true);
 
-        t = std::unique_ptr<Tetrimino>(new Tetriminoes::I());
+        t = std::unique_ptr<Tetrimino>(new Tetriminoes::I(tileset));
 
         while (window.isOpen()) {
             sf::Event event;
@@ -53,19 +56,19 @@ public:
     void switchTetrimino(TetriminoType tt) {
         switch (tt) {
             case I:
-                t = std::unique_ptr<Tetrimino>(new Tetriminoes::I()); break;
+                t = std::unique_ptr<Tetrimino>(new Tetriminoes::I(tileset)); break;
             case J:
-                t = std::unique_ptr<Tetrimino>(new Tetriminoes::J()); break;
+                t = std::unique_ptr<Tetrimino>(new Tetriminoes::J(tileset)); break;
             case L:
-                t = std::unique_ptr<Tetrimino>(new Tetriminoes::L()); break;
+                t = std::unique_ptr<Tetrimino>(new Tetriminoes::L(tileset)); break;
             case O:
-                t = std::unique_ptr<Tetrimino>(new Tetriminoes::O()); break;
+                t = std::unique_ptr<Tetrimino>(new Tetriminoes::O(tileset)); break;
             case S:
-                t = std::unique_ptr<Tetrimino>(new Tetriminoes::S()); break;
+                t = std::unique_ptr<Tetrimino>(new Tetriminoes::S(tileset)); break;
             case T:
-                t = std::unique_ptr<Tetrimino>(new Tetriminoes::T()); break;
+                t = std::unique_ptr<Tetrimino>(new Tetriminoes::T(tileset)); break;
             case Z:
-                t = std::unique_ptr<Tetrimino>(new Tetriminoes::Z()); break;
+                t = std::unique_ptr<Tetrimino>(new Tetriminoes::Z(tileset)); break;
         }
     }
 };

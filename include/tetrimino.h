@@ -9,50 +9,50 @@ class Tetrimino : public sf::Drawable, public sf::Transformable {
 protected:
     sf::VertexArray blocks;
     sf::Vector2f center;
-    sf::Color color;
+    sf::Texture &texture;
 
 protected:
-    void createBlock(int x, int y, int z);
+    void createBlock(int x, int y, int n, int t);
 
 public:
-    Tetrimino();
+    Tetrimino(sf::Texture &texture);
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 };
 
 namespace Tetriminoes {
     class I : public Tetrimino {
     public:
-        I();
+        I(sf::Texture &texture);
     };
 
     class J : public Tetrimino {
     public:
-        J();
+        J(sf::Texture &texture);
     };
 
     class L : public Tetrimino {
     public:
-        L();
+        L(sf::Texture &texture);
     };
 
     class O : public Tetrimino {
     public:
-        O();
+        O(sf::Texture &texture);
     };
 
     class S : public Tetrimino {
     public:
-        S();
+        S(sf::Texture &texture);
     };
 
     class T : public Tetrimino {
     public:
-        T();
+        T(sf::Texture &texture);
     };
 
     class Z : public Tetrimino {
     public:
-        Z();
+        Z(sf::Texture &texture);
     };
 }
 
