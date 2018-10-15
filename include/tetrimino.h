@@ -8,6 +8,7 @@
 class Tetrimino : public sf::Drawable, public sf::Transformable {
 protected:
     sf::VertexArray blocks;
+    std::vector<sf::Vector2f> matrixCoords;
     sf::Vector2f center;
     sf::Texture &texture;
 
@@ -17,6 +18,7 @@ protected:
 public:
     Tetrimino(sf::Texture &texture);
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+    void matrixMove(Direction direction);
 };
 
 namespace Tetriminoes {

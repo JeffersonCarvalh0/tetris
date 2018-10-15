@@ -38,9 +38,9 @@ public:
 
     void keyPressed() {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) t->move(0, -BLOCK_SIZE);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) t->move(-BLOCK_SIZE, 0);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) t->move(0, BLOCK_SIZE);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) t->move(BLOCK_SIZE, 0);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) t->matrixMove(LEFT);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) t->matrixMove(DOWN);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) t->matrixMove(RIGHT);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) t->rotate(-90);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) t->rotate(90);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) switchTetrimino(I);
