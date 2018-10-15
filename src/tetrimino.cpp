@@ -38,17 +38,14 @@ void Tetrimino::matrixMove(Direction direction) {
     bool valid = true;
     for (int i = 0; i < 4 && valid; ++i) {
         sf::Vector2f v = currentTransform.transformPoint(blocks[i * 4].position);
-        float x = std::min(v.x, currentTransform.transformPoint(blocks[(i * 4) + 2].position).x);
-        float y = std::min(v.y, currentTransform.transformPoint(blocks[(i * 4) + 2].position).y);
-        std::cout << x << ' ' << y << '\n';
-        x = std::round(x / BLOCK_SIZE); y = std::round(y / BLOCK_SIZE);
+        v.x = std::min(v.x, currentTransform.transformPoint(blocks[(i * 4) + 2].position).x);
+        v.y = std::min(v.y, currentTransform.transformPoint(blocks[(i * 4) + 2].position).y);
+        v.x = std::round(v.x / BLOCK_SIZE); v.y = std::round(v.y / BLOCK_SIZE);
 
 
-        if (x >= MATRIX_W || x < 0) valid = false;
-        if (y >= MATRIX_H || y < 0) valid = false;
+        if (v.x >= MATRIX_W || v.x < 0) valid = false;
+        if (v.y >= MATRIX_H || v.y < 0) valid = false;
     }
-
-    std::cout << "\n\n";
 
     if (!valid) setPosition(previous);
 }
@@ -59,17 +56,26 @@ void Tetrimino::matrixRotate(Direction direction) {
 
     sf::Transform currentTransform = getTransform();
     int smaller_x = MATRIX_W, greater_x = 0;
+    bool valid = true;
     for (int i = 0; i < 4; ++i) {
-        int x = currentTransform.transformPoint(blocks[i * 4].position).x;
-        x = std::min(x, int(currentTransform.transformPoint(blocks[(i * 4) + 2].position).x));
-        x /= BLOCK_SIZE;
+        sf::Vector2f v = currentTransform.transformPoint(blocks[i * 4].position);
+        v.x = std::min(v.x, currentTransform.transformPoint(blocks[(i * 4) + 2].position).x);
+        v.y = std::min(v.y, currentTransform.transformPoint(blocks[(i * 4) + 2].position).y);
+        v.x = std::round(v.x / BLOCK_SIZE); v.y = std::round(v.y / BLOCK_SIZE);
 
-        smaller_x = std::min(smaller_x, x);
-        greater_x = std::max(greater_x, x);
+        if (v.y >= MATRIX_H) valid = false;
+
+        smaller_x = std::min(smaller_x, int(v.x));
+        greater_x = std::max(greater_x, int(v.x));
     }
 
-    if (smaller_x < 0) move(abs(smaller_x) * BLOCK_SIZE, 0);
-    if (greater_x >= MATRIX_W) move(-((greater_x + 1) - MATRIX_W) * BLOCK_SIZE, 0);
+    if (valid) {
+        if (smaller_x < 0) move(abs(smaller_x) * BLOCK_SIZE, 0);
+        if (greater_x >= MATRIX_W) move(-((greater_x + 1) - MATRIX_W) * BLOCK_SIZE, 0);
+    } else {
+        if (direction == RIGHT) rotate(-90);
+        if (direction == LEFT) rotate(90);
+    }
 }
 
 Tetriminoes::I::I(sf::Texture &texture): Tetrimino(texture) {
