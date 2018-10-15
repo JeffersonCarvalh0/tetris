@@ -18,6 +18,7 @@ public:
     Tetrimino(sf::Texture &texture);
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
     void matrixMove(Direction direction);
+    void matrixRotate(Direction direction);
 };
 
 namespace Tetriminoes {

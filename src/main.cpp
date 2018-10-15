@@ -41,8 +41,8 @@ public:
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) t->matrixMove(LEFT);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) t->matrixMove(DOWN);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) t->matrixMove(RIGHT);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) t->rotate(-90);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) t->rotate(90);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) t->matrixRotate(LEFT);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) t->matrixRotate(RIGHT);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) switchTetrimino(I);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) switchTetrimino(J);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) switchTetrimino(L);
