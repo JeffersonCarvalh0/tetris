@@ -1,4 +1,5 @@
 # include <algorithm>
+# include <cmath>
 # include <iostream>
 # include "tetrimino.h"
 
@@ -37,11 +38,11 @@ void Tetrimino::matrixMove(Direction direction) {
     bool valid = true;
     for (int i = 0; i < 4 && valid; ++i) {
         sf::Vector2f v = currentTransform.transformPoint(blocks[i * 4].position);
-        int x = std::min(v.x, currentTransform.transformPoint(blocks[(i * 4) + 2].position).x);
-        int y = std::min(v.y, currentTransform.transformPoint(blocks[(i * 4) + 2].position).y);
-        x /= BLOCK_SIZE; y /= BLOCK_SIZE;
-
+        float x = std::min(v.x, currentTransform.transformPoint(blocks[(i * 4) + 2].position).x);
+        float y = std::min(v.y, currentTransform.transformPoint(blocks[(i * 4) + 2].position).y);
         std::cout << x << ' ' << y << '\n';
+        x = std::round(x / BLOCK_SIZE); y = std::round(y / BLOCK_SIZE);
+
 
         if (x >= MATRIX_W || x < 0) valid = false;
         if (y >= MATRIX_H || y < 0) valid = false;
