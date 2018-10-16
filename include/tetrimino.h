@@ -19,6 +19,7 @@ public:
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
     void matrixMove(Direction direction);
     void matrixRotate(Direction direction);
+    void hardDrop();
 };
 
 namespace Tetriminoes {

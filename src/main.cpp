@@ -9,6 +9,7 @@ class Window {
 public:
     sf::RenderWindow window;
     sf::Texture tileset;
+    sf::Clock clock;
     std::unique_ptr<Tetrimino> t;
 
 
@@ -32,6 +33,10 @@ public:
 
     void update() {
         window.clear(sf::Color::Black);
+
+        if (clock.getElapsedTime().asMilliseconds() >= 1000)
+            t->matrixMove(DOWN), clock.restart();
+
         window.draw(*t);
         window.display();
     }
@@ -43,6 +48,7 @@ public:
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) t->matrixMove(RIGHT);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) t->matrixRotate(LEFT);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) t->matrixRotate(RIGHT);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) t->hardDrop();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) switchTetrimino(I);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) switchTetrimino(J);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) switchTetrimino(L);
