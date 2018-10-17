@@ -2,6 +2,7 @@
 # include <memory>
 # include <random>
 # include <set>
+# include <iostream>
 
 # include "defs.h"
 # include "board.h"
@@ -93,10 +94,14 @@ public:
 
     void newPiece() {
         if (bag.empty())
-            for (int i = 3; i <= 7; ++i) bag.insert(i);
+            for (int i = 3; i <= 9; ++i) bag.insert(i);
 
-        std::uniform_int_distribution<int> random_piece(*bag.begin(), *bag.rbegin());
+        std::uniform_int_distribution<int> random_piece(0, bag.size() - 1);
         int p = random_piece(generator);
+
+        auto it = bag.begin();
+        std::advance(it, p);
+        p = *it;
 
         bag.erase(p);
         switchTetrimino(static_cast<TetriminoType>(p));
