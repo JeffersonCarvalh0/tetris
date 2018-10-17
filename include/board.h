@@ -7,7 +7,8 @@
 
 class Board : public sf::Drawable {
 private:
-    std::vector<sf::VertexArray> mat;
+    std::vector<sf::VertexArray> textureMat;
+    std::vector<std::vector<bool>> mat;
     sf::Texture &tileset;
 
 private:
@@ -17,6 +18,7 @@ public:
     Board(sf::Texture &tileset);
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
     void drawBlocks(Tetrimino &t);
+    bool checkCollision(Tetrimino &t);
 };
 
 # endif /* end of include guard: BOARD_H */

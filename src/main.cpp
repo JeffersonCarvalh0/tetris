@@ -26,7 +26,7 @@ public:
         tileset.setSmooth(true);
 
         board = std::unique_ptr<Board>(new Board(tileset));
-        t = std::unique_ptr<Tetrimino>(new Tetriminoes::I(tileset));
+        newPiece();
 
         generator = std::default_random_engine(rd());
 
@@ -45,12 +45,8 @@ public:
         window.clear(sf::Color::Black);
 
         if (clock.getElapsedTime().asMilliseconds() >= 1000) {
-            if (t->isAtFloor()) {
-                board->drawBlocks(*t);
-                newPiece();
-            }
-
-            t->matrixMove(DOWN); clock.restart();
+            if (t->isAtFloor()) board->drawBlocks(*t), newPiece();
+            movePiece(DOWN); clock.restart();
         }
 
         window.draw(*board);
@@ -60,9 +56,9 @@ public:
 
     void keyPressed() {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) t->move(0, -BLOCK_SIZE);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) t->matrixMove(LEFT);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) t->matrixMove(DOWN);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) t->matrixMove(RIGHT);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) movePiece(LEFT);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) movePiece(DOWN);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) movePiece(RIGHT);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) t->matrixRotate(LEFT);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) t->matrixRotate(RIGHT);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) t->hardDrop();
@@ -100,10 +96,21 @@ public:
             for (int i = 3; i <= 7; ++i) bag.insert(i);
 
         std::uniform_int_distribution<int> random_piece(*bag.begin(), *bag.rbegin());
-        int t = random_piece(generator);
+        int p = random_piece(generator);
 
-        bag.erase(t);
-        switchTetrimino(static_cast<TetriminoType>(t));
+        bag.erase(p);
+        switchTetrimino(static_cast<TetriminoType>(p));
+    }
+
+    void movePiece(Direction direction) {
+        sf::Vector2f previous = t->getPosition();
+        t->matrixMove(direction);
+
+        if (board->checkCollision(*t)) {
+            t->setPosition(previous);
+            if (direction == DOWN)
+                board->drawBlocks(*t), newPiece();
+        }
     }
 };
 
