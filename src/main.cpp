@@ -60,8 +60,8 @@ public:
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) movePiece(LEFT);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) movePiece(DOWN);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) movePiece(RIGHT);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) t->matrixRotate(LEFT);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) t->matrixRotate(RIGHT);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) rotatePiece(LEFT);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) rotatePiece(RIGHT);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) t->hardDrop();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) switchTetrimino(I);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) switchTetrimino(J);
@@ -115,6 +115,15 @@ public:
             t->setPosition(previous);
             if (direction == DOWN)
                 board->drawBlocks(*t), newPiece();
+        }
+    }
+
+    void rotatePiece(Direction direction) {
+        t->matrixRotate(direction);
+
+        if (board->checkCollision(*t)) {
+            if (direction == RIGHT) t->matrixRotate(LEFT);
+            if (direction == LEFT) t->matrixRotate(RIGHT);
         }
     }
 };
