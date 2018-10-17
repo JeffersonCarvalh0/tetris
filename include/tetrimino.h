@@ -2,17 +2,23 @@
 # define TETRIMINO_H
 
 # include <SFML/Graphics.hpp>
-# include <vector>
 # include "defs.h"
 
+class Board;
+
 class Tetrimino : public sf::Drawable, public sf::Transformable {
+    friend class Board;
+public:
+    TetriminoType type;
+
 protected:
     sf::VertexArray blocks;
     sf::Vector2f center;
     sf::Texture &texture;
+    bool atFloor;
 
 protected:
-    void createBlock(int x, int y, int n, int t);
+    void createBlock(int x, int y, int n);
 
 public:
     Tetrimino(sf::Texture &texture);
@@ -20,6 +26,7 @@ public:
     void matrixMove(Direction direction);
     void matrixRotate(Direction direction);
     void hardDrop();
+    bool isAtFloor();
 };
 
 namespace Tetriminoes {

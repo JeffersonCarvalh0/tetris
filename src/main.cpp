@@ -1,8 +1,10 @@
 # include <SFML/Graphics.hpp>
-# include <iostream>
 # include <memory>
+# include <random>
+# include <set>
 
 # include "defs.h"
+# include "board.h"
 # include "tetrimino.h"
 
 class Window {
@@ -10,15 +12,23 @@ public:
     sf::RenderWindow window;
     sf::Texture tileset;
     sf::Clock clock;
-    std::unique_ptr<Tetrimino> t;
 
+    std::unique_ptr<Tetrimino> t;
+    std::unique_ptr<Board> board;
+
+    std::set<int> bag;
+    std::random_device rd;
+    std::default_random_engine generator;
 
     Window() {
         window.create(sf::VideoMode(WIDTH, HEIGHT), "Tetris");
         tileset.loadFromFile("../assets/textures/blocks.png");
         tileset.setSmooth(true);
 
+        board = std::unique_ptr<Board>(new Board(tileset));
         t = std::unique_ptr<Tetrimino>(new Tetriminoes::I(tileset));
+
+        generator = std::default_random_engine(rd());
 
         while (window.isOpen()) {
             sf::Event event;
@@ -34,9 +44,16 @@ public:
     void update() {
         window.clear(sf::Color::Black);
 
-        if (clock.getElapsedTime().asMilliseconds() >= 1000)
-            t->matrixMove(DOWN), clock.restart();
+        if (clock.getElapsedTime().asMilliseconds() >= 1000) {
+            if (t->isAtFloor()) {
+                board->drawBlocks(*t);
+                newPiece();
+            }
 
+            t->matrixMove(DOWN); clock.restart();
+        }
+
+        window.draw(*board);
         window.draw(*t);
         window.display();
     }
@@ -76,6 +93,17 @@ public:
             case Z:
                 t = std::unique_ptr<Tetrimino>(new Tetriminoes::Z(tileset)); break;
         }
+    }
+
+    void newPiece() {
+        if (bag.empty())
+            for (int i = 3; i <= 7; ++i) bag.insert(i);
+
+        std::uniform_int_distribution<int> random_piece(*bag.begin(), *bag.rbegin());
+        int t = random_piece(generator);
+
+        bag.erase(t);
+        switchTetrimino(static_cast<TetriminoType>(t));
     }
 };
 
