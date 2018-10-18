@@ -2,7 +2,6 @@
 # include <memory>
 # include <random>
 # include <set>
-# include <iostream>
 
 # include "defs.h"
 # include "board.h"
@@ -62,7 +61,7 @@ public:
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) movePiece(RIGHT);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) rotatePiece(LEFT);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) rotatePiece(RIGHT);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) t->hardDrop();
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) performHardDrop();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) switchTetrimino(I);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) switchTetrimino(J);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) switchTetrimino(L);
@@ -107,15 +106,18 @@ public:
         switchTetrimino(static_cast<TetriminoType>(p));
     }
 
-    void movePiece(Direction direction) {
+    bool movePiece(Direction direction) {
         sf::Vector2f previous = t->getPosition();
         t->matrixMove(direction);
+        bool moved = true;
 
-        if (board->checkCollision(*t)) {
+        if (board->checkCollision(*t) || t->isAtFloor()) {
             t->setPosition(previous);
             if (direction == DOWN)
                 board->drawBlocks(*t), newPiece();
+            moved = false;
         }
+        return moved;
     }
 
     void rotatePiece(Direction direction) {
@@ -125,6 +127,11 @@ public:
             if (direction == RIGHT) t->matrixRotate(LEFT);
             if (direction == LEFT) t->matrixRotate(RIGHT);
         }
+    }
+
+    void performHardDrop() {
+        while (movePiece(DOWN) && !t->isAtFloor());
+        clock.restart();
     }
 };
 

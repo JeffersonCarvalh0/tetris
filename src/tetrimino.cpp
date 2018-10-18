@@ -79,19 +79,6 @@ void Tetrimino::matrixRotate(Direction direction) {
     }
 }
 
-void Tetrimino::hardDrop() {
-    sf::Transform transform = getTransform();
-    int max_y = 0;
-    for (int i = 0; i < 4; ++i) {
-        float y = transform.transformPoint(blocks[i * 4].position).y;
-        y = std::min(y, transform.transformPoint(blocks[(i * 4) + 2].position).y);
-        y = std::round(y / BLOCK_SIZE);
-        max_y = std::max(max_y, int(y));
-    }
-    move(0, ((MATRIX_H - 1) - max_y) * BLOCK_SIZE);
-    atFloor = true;
-}
-
 bool Tetrimino::isAtFloor() { return atFloor; }
 
 Tetriminoes::I::I(sf::Texture &texture): Tetrimino(texture) {
