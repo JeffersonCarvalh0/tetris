@@ -1,6 +1,7 @@
 # ifndef DEFS_H
 # define DEFS_H
 
+const int SCREEN_WIDTH = 480;
 const int WIDTH = 240;
 const int HEIGHT = 480;
 const int MATRIX_W = 10;

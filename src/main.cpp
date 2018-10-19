@@ -21,7 +21,7 @@ public:
     std::default_random_engine generator;
 
     Window() {
-        window.create(sf::VideoMode(WIDTH, HEIGHT), "Tetris");
+        window.create(sf::VideoMode(SCREEN_WIDTH, HEIGHT), "Tetris");
         tileset.loadFromFile("../assets/textures/blocks.png");
         tileset.setSmooth(true);
 
@@ -49,6 +49,7 @@ public:
             movePiece(DOWN); clock.restart();
         }
 
+        drawHUD();
         window.draw(*board);
         window.draw(*t);
         window.display();
@@ -132,6 +133,12 @@ public:
     void performHardDrop() {
         while (movePiece(DOWN) && !t->isAtFloor());
         clock.restart();
+    }
+
+    void drawHUD() {
+        sf::RectangleShape line(sf::Vector2f(1, HEIGHT));
+        line.setPosition(WIDTH, 0);
+        window.draw(line);
     }
 };
 
