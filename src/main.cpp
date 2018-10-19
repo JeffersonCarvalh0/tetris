@@ -11,6 +11,8 @@ class Window {
 public:
     sf::RenderWindow window;
     sf::Texture tileset;
+    sf::Font roboto;
+    sf::Text scoreText;
     sf::Clock clock;
 
     std::unique_ptr<Tetrimino> t;
@@ -20,15 +22,20 @@ public:
     std::random_device rd;
     std::default_random_engine generator;
 
+    int score;
+
     Window() {
         window.create(sf::VideoMode(SCREEN_WIDTH, HEIGHT), "Tetris");
         tileset.loadFromFile("../assets/textures/blocks.png");
         tileset.setSmooth(true);
 
+        initializeText();
+
         board = std::unique_ptr<Board>(new Board(tileset));
         newPiece();
 
         generator = std::default_random_engine(rd());
+        score = 0;
 
         while (window.isOpen()) {
             sf::Event event;
@@ -45,7 +52,7 @@ public:
         window.clear(sf::Color::Black);
 
         if (clock.getElapsedTime().asMilliseconds() >= 1000) {
-            if (t->isAtFloor()) board->update(*t), newPiece();
+            if (t->isAtFloor()) score += board->update(*t), newPiece();
             movePiece(DOWN); clock.restart();
         }
 
@@ -115,7 +122,7 @@ public:
         if (board->checkCollision(*t) || t->isAtFloor()) {
             t->setPosition(previous);
             if (direction == DOWN)
-                board->update(*t), newPiece();
+                score += board->update(*t), newPiece();
             moved = false;
         }
         return moved;
@@ -135,10 +142,23 @@ public:
         clock.restart();
     }
 
+    void initializeText() {
+        roboto.loadFromFile("../assets/fonts/Roboto-Regular.ttf");
+        scoreText.setFont(roboto);
+        scoreText.setString("Score: 0");
+        scoreText.setCharacterSize(24);
+        scoreText.setFillColor(sf::Color::White);
+        scoreText.setStyle(sf::Text::Bold);
+        scoreText.setPosition(WIDTH + BLOCK_SIZE, BLOCK_SIZE);
+    }
+
     void drawHUD() {
         sf::RectangleShape line(sf::Vector2f(1, HEIGHT));
         line.setPosition(WIDTH, 0);
         window.draw(line);
+
+        scoreText.setString("Score: " + std::to_string(score));
+        window.draw(scoreText);
     }
 };
 
