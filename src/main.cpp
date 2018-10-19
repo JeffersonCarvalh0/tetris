@@ -45,7 +45,7 @@ public:
         window.clear(sf::Color::Black);
 
         if (clock.getElapsedTime().asMilliseconds() >= 1000) {
-            if (t->isAtFloor()) board->drawBlocks(*t), newPiece();
+            if (t->isAtFloor()) board->update(*t), newPiece();
             movePiece(DOWN); clock.restart();
         }
 
@@ -114,7 +114,7 @@ public:
         if (board->checkCollision(*t) || t->isAtFloor()) {
             t->setPosition(previous);
             if (direction == DOWN)
-                board->drawBlocks(*t), newPiece();
+                board->update(*t), newPiece();
             moved = false;
         }
         return moved;

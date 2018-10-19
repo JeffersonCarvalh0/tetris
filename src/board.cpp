@@ -25,7 +25,9 @@ void Board::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     for (int i = 0; i < MATRIX_H; ++i) target.draw(textureMat[i], states);
 }
 
-void Board::drawBlocks(Tetrimino &t) {
+int Board::update(Tetrimino &t) {
+    int lines_cleared = 0;
+
     for (int i = 0; i < 4; ++i) {
         sf::Transform transform = t.getTransform();
         sf::Vector2f coord = transform.transformPoint(t.blocks[i * 4].position);
@@ -37,6 +39,13 @@ void Board::drawBlocks(Tetrimino &t) {
         applyTexture(y, x, t.type);
         mat[y][x] = 1;
     }
+
+    lines_cleared = clearLines();
+    if (lines_cleared == 0) return 0;
+    else if (lines_cleared == 1) return 40;
+    else if (lines_cleared == 2) return 100;
+    else if (lines_cleared == 3) return 300;
+    else return 1200;
 }
 
 void Board::applyTexture(int i, int j, int t) {
@@ -60,4 +69,37 @@ bool Board::checkCollision(Tetrimino &t) {
         if (mat[y][x]) return true;
     }
     return false;
+}
+
+int Board::clearLines() {
+    int n = 0;
+
+    for (int i = MATRIX_H - 1; i >= 0; --i) {
+        bool complete = true;
+        for (int j = 0; j < MATRIX_W; ++j)
+            if (!mat[i][j]) { complete = false; break; }
+
+        if (complete) {
+            ++n;
+            for (int j = i; j >= 0; --j) {
+                for (int k = 0; k < MATRIX_W; ++k) {
+                    if (j == 0) {
+                        mat[j][k] = 0;
+                        textureMat[j][k * 4].texCoords = sf::Vector2f(0, 0);
+                        textureMat[j][(k * 4) + 1].texCoords = sf::Vector2f(0, 0);
+                        textureMat[j][(k * 4) + 2].texCoords = sf::Vector2f(0, 0);
+                        textureMat[j][(k * 4) + 3].texCoords = sf::Vector2f(0, 0);
+                    } else {
+                        mat[j][k] = mat[j - 1][k];
+                        textureMat[j][k * 4].texCoords = textureMat[j - 1][k * 4].texCoords;
+                        textureMat[j][(k * 4) + 1].texCoords = textureMat[j - 1][(k * 4) + 1].texCoords;
+                        textureMat[j][(k * 4) + 2].texCoords = textureMat[j - 1][(k * 4) + 2].texCoords;
+                        textureMat[j][(k * 4) + 3].texCoords = textureMat[j - 1][(k * 4) + 3].texCoords;
+                    }
+                }
+            }
+            ++i;
+        }
+    }
+    return n;
 }

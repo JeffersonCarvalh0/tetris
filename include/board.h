@@ -13,11 +13,12 @@ private:
 
 private:
     void applyTexture(int i, int j, int t);
+    int clearLines();
 
 public:
     Board(sf::Texture &tileset);
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
-    void drawBlocks(Tetrimino &t);
+    int update(Tetrimino &t);
     bool checkCollision(Tetrimino &t);
 };
 
