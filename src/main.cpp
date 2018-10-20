@@ -164,17 +164,6 @@ public:
 
         scoreText.setString("Score: " + std::to_string(score));
         window.draw(scoreText);
-
-        // sf::VertexArray square(sf::LinesStrip, 5);
-        // int x = WIDTH + (BLOCK_SIZE * 3);
-        // int y = BLOCK_SIZE * 3;
-        // square[0].position = sf::Vector2f(x, y);
-        // square[1].position = sf::Vector2f(x + (4 * BLOCK_SIZE), y);
-        // square[2].position = sf::Vector2f(x + (4 * BLOCK_SIZE), y + (BLOCK_SIZE * 2));
-        // square[3].position = sf::Vector2f(x, y + (BLOCK_SIZE * 2));
-        // square[4].position = sf::Vector2f(x, y);
-
-        // window.draw(square);
         window.draw(*onHold);
     }
 };
