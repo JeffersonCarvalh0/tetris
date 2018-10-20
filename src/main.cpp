@@ -15,7 +15,8 @@ public:
     sf::Text scoreText;
     sf::Clock clock;
 
-    std::unique_ptr<Tetrimino> t;
+    std::shared_ptr<Tetrimino> t;
+    std::shared_ptr<Tetrimino> onHold;
     std::unique_ptr<Board> board;
 
     std::set<int> bag;
@@ -70,17 +71,10 @@ public:
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) rotatePiece(LEFT);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) rotatePiece(RIGHT);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) performHardDrop();
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) switchTetrimino(I);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) switchTetrimino(J);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) switchTetrimino(L);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) switchTetrimino(O);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num5)) switchTetrimino(S);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num6)) switchTetrimino(T);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num7)) switchTetrimino(Z);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) window.close();
     }
 
-    void switchTetrimino(TetriminoType tt) {
+    void switchTetrimino(TetriminoType tt, std::shared_ptr<Tetrimino> &t) {
         switch (tt) {
             case I:
                 t = std::unique_ptr<Tetrimino>(new Tetriminoes::I(tileset)); break;
@@ -111,7 +105,18 @@ public:
         p = *it;
 
         bag.erase(p);
-        switchTetrimino(static_cast<TetriminoType>(p));
+        if (onHold != nullptr) {
+            switchTetrimino(onHold->type, t);
+            switchTetrimino(static_cast<TetriminoType>(p), onHold);
+        } else {
+            switchTetrimino(static_cast<TetriminoType>(p), t);
+            p = random_piece(generator);
+            it = bag.begin(); std::advance(it, p);
+            p = *it; bag.erase(p);
+            switchTetrimino(static_cast<TetriminoType>(p), onHold);
+        }
+
+        onHold->move(WIDTH, BLOCK_SIZE * 3);
     }
 
     bool movePiece(Direction direction) {
@@ -160,16 +165,17 @@ public:
         scoreText.setString("Score: " + std::to_string(score));
         window.draw(scoreText);
 
-        sf::VertexArray square(sf::LinesStrip, 5);
-        int x = WIDTH + (BLOCK_SIZE * 3);
-        int y = BLOCK_SIZE * 3;
-        square[0].position = sf::Vector2f(x, y);
-        square[1].position = sf::Vector2f(x + (4 * BLOCK_SIZE), y);
-        square[2].position = sf::Vector2f(x + (4 * BLOCK_SIZE), y + (BLOCK_SIZE * 3));
-        square[3].position = sf::Vector2f(x, y + (BLOCK_SIZE * 3));
-        square[4].position = sf::Vector2f(x, y);
+        // sf::VertexArray square(sf::LinesStrip, 5);
+        // int x = WIDTH + (BLOCK_SIZE * 3);
+        // int y = BLOCK_SIZE * 3;
+        // square[0].position = sf::Vector2f(x, y);
+        // square[1].position = sf::Vector2f(x + (4 * BLOCK_SIZE), y);
+        // square[2].position = sf::Vector2f(x + (4 * BLOCK_SIZE), y + (BLOCK_SIZE * 2));
+        // square[3].position = sf::Vector2f(x, y + (BLOCK_SIZE * 2));
+        // square[4].position = sf::Vector2f(x, y);
 
-        window.draw(square);
+        // window.draw(square);
+        window.draw(*onHold);
     }
 };
 
