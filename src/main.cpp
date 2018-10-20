@@ -23,6 +23,8 @@ public:
     std::random_device rd;
     std::default_random_engine generator;
 
+    bool switched;
+
     int score;
 
     Window() {
@@ -64,7 +66,7 @@ public:
     }
 
     void keyPressed() {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) t->move(0, -BLOCK_SIZE);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) holdPiece();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) movePiece(LEFT);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) movePiece(DOWN);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) movePiece(RIGHT);
@@ -117,6 +119,7 @@ public:
         }
 
         onHold->move(WIDTH, BLOCK_SIZE * 3);
+        switched = false;
     }
 
     bool movePiece(Direction direction) {
@@ -165,6 +168,16 @@ public:
         scoreText.setString("Score: " + std::to_string(score));
         window.draw(scoreText);
         window.draw(*onHold);
+    }
+
+    void holdPiece() {
+        if (!switched) {
+            std::shared_ptr<Tetrimino> temp = t;
+            switchTetrimino(onHold->type, t);
+            switchTetrimino(temp->type, onHold);
+            onHold->move(WIDTH, BLOCK_SIZE * 3);
+            switched = true;
+        }
     }
 };
 
