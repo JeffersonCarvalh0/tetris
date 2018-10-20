@@ -1,4 +1,4 @@
-# Instructions
+# Building Instructions
 In order to build the project, open the terminal in the root directory and do as
 follows:
 
@@ -9,6 +9,16 @@ make
 ```
 
 You can execute the game with `./main`.
+
+# Controls
+* A - Move to the left
+* D - Move to the right
+* S - Move down
+* W - Hold tetrimino
+* Q - Rotate counterclockwise
+* E - Rotate clockwise
+* Space - Hard drop
+* Esc - Close the game
 
 # Built with
 * [SFML](https://www.sfml-dev.org/index.php)
