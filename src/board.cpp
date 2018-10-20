@@ -103,3 +103,15 @@ int Board::clearLines() {
     }
     return n;
 }
+
+void Board::clear() {
+    for (int i = 0; i < MATRIX_H; ++i) {
+        for (int j = 0; j < MATRIX_W; ++j) {
+            mat[i][j] = 0;
+            textureMat[i][j * 4].texCoords = sf::Vector2f(0, 0);
+            textureMat[i][(j * 4) + 1].texCoords = sf::Vector2f(0, 0);
+            textureMat[i][(j * 4) + 2].texCoords = sf::Vector2f(0, 0);
+            textureMat[i][(j * 4) + 3].texCoords = sf::Vector2f(0, 0);
+        }
+    }
+}

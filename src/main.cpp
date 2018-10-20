@@ -13,6 +13,8 @@ public:
     sf::Texture tileset;
     sf::Font roboto;
     sf::Text scoreText;
+    sf::Text gameOverText;
+    sf::Text gameOverText2;
     sf::Clock clock;
 
     std::shared_ptr<Tetrimino> t;
@@ -24,12 +26,14 @@ public:
     std::default_random_engine generator;
 
     bool switched;
+    bool isOver;
 
     int score;
 
     Window() {
         window.create(sf::VideoMode(SCREEN_WIDTH, HEIGHT), "Tetris");
         tileset.loadFromFile("../assets/textures/blocks.png");
+        roboto.loadFromFile("../assets/fonts/Roboto-Regular.ttf");
         tileset.setSmooth(true);
 
         initializeText();
@@ -39,6 +43,7 @@ public:
 
         generator = std::default_random_engine(rd());
         score = 0;
+        isOver = false;
 
         while (window.isOpen()) {
             sf::Event event;
@@ -54,7 +59,7 @@ public:
     void update() {
         window.clear(sf::Color::Black);
 
-        if (clock.getElapsedTime().asMilliseconds() >= 1000) {
+        if (clock.getElapsedTime().asMilliseconds() >= 1000 && !isOver) {
             if (t->isAtFloor()) score += board->update(*t), newPiece();
             movePiece(DOWN); clock.restart();
         }
@@ -66,32 +71,36 @@ public:
     }
 
     void keyPressed() {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) holdPiece();
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) movePiece(LEFT);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) movePiece(DOWN);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) movePiece(RIGHT);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) rotatePiece(LEFT);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) rotatePiece(RIGHT);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) performHardDrop();
+        if (!isOver) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) holdPiece();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) movePiece(LEFT);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) movePiece(DOWN);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) movePiece(RIGHT);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) rotatePiece(LEFT);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) rotatePiece(RIGHT);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) performHardDrop();
+        } else {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) restart();
+        }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) window.close();
     }
 
     void switchTetrimino(TetriminoType tt, std::shared_ptr<Tetrimino> &t) {
         switch (tt) {
             case I:
-                t = std::unique_ptr<Tetrimino>(new Tetriminoes::I(tileset)); break;
+                t = std::shared_ptr<Tetrimino>(new Tetriminoes::I(tileset)); break;
             case J:
-                t = std::unique_ptr<Tetrimino>(new Tetriminoes::J(tileset)); break;
+                t = std::shared_ptr<Tetrimino>(new Tetriminoes::J(tileset)); break;
             case L:
-                t = std::unique_ptr<Tetrimino>(new Tetriminoes::L(tileset)); break;
+                t = std::shared_ptr<Tetrimino>(new Tetriminoes::L(tileset)); break;
             case O:
-                t = std::unique_ptr<Tetrimino>(new Tetriminoes::O(tileset)); break;
+                t = std::shared_ptr<Tetrimino>(new Tetriminoes::O(tileset)); break;
             case S:
-                t = std::unique_ptr<Tetrimino>(new Tetriminoes::S(tileset)); break;
+                t = std::shared_ptr<Tetrimino>(new Tetriminoes::S(tileset)); break;
             case T:
-                t = std::unique_ptr<Tetrimino>(new Tetriminoes::T(tileset)); break;
+                t = std::shared_ptr<Tetrimino>(new Tetriminoes::T(tileset)); break;
             case Z:
-                t = std::unique_ptr<Tetrimino>(new Tetriminoes::Z(tileset)); break;
+                t = std::shared_ptr<Tetrimino>(new Tetriminoes::Z(tileset)); break;
         }
     }
 
@@ -107,7 +116,7 @@ public:
         p = *it;
 
         bag.erase(p);
-        if (onHold != nullptr) {
+        if (onHold) {
             switchTetrimino(onHold->type, t);
             switchTetrimino(static_cast<TetriminoType>(p), onHold);
         } else {
@@ -120,6 +129,8 @@ public:
 
         onHold->move(WIDTH, BLOCK_SIZE * 3);
         switched = false;
+
+        if (board->checkCollision(*t)) isOver = true;
     }
 
     bool movePiece(Direction direction) {
@@ -150,14 +161,26 @@ public:
         clock.restart();
     }
 
+    void configureText(sf::Text &text) {
+        text.setFont(roboto);
+        text.setCharacterSize(24);
+        text.setFillColor(sf::Color::White);
+        text.setStyle(sf::Text::Bold);
+    }
+
     void initializeText() {
-        roboto.loadFromFile("../assets/fonts/Roboto-Regular.ttf");
-        scoreText.setFont(roboto);
+        configureText(scoreText);
         scoreText.setString("Score: 0");
-        scoreText.setCharacterSize(24);
-        scoreText.setFillColor(sf::Color::White);
-        scoreText.setStyle(sf::Text::Bold);
         scoreText.setPosition(WIDTH + BLOCK_SIZE, BLOCK_SIZE);
+
+        configureText(gameOverText);
+        gameOverText.setString("Game over!");
+        gameOverText.setPosition(WIDTH + BLOCK_SIZE, 2 * BLOCK_SIZE);
+
+        configureText(gameOverText2);
+        gameOverText2.setString("Press 'R' to start again");
+        gameOverText2.setCharacterSize(18);
+        gameOverText2.setPosition(WIDTH + BLOCK_SIZE, 8 * BLOCK_SIZE);
     }
 
     void drawHUD() {
@@ -168,6 +191,7 @@ public:
         scoreText.setString("Score: " + std::to_string(score));
         window.draw(scoreText);
         window.draw(*onHold);
+        if (isOver) window.draw(gameOverText), window.draw(gameOverText2);
     }
 
     void holdPiece() {
@@ -178,6 +202,13 @@ public:
             onHold->move(WIDTH, BLOCK_SIZE * 3);
             switched = true;
         }
+    }
+
+    void restart() {
+        isOver = false; score = 0;
+        board->clear(); t.reset(); onHold.reset();
+        bag.clear();
+        newPiece();
     }
 };
 

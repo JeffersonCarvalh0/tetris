@@ -20,6 +20,7 @@ public:
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
     int update(Tetrimino &t);
     bool checkCollision(Tetrimino &t);
+    void clear();
 };
 
 # endif /* end of include guard: BOARD_H */
