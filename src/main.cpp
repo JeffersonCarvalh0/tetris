@@ -1,4 +1,5 @@
 # include <SFML/Graphics.hpp>
+# include <SFML/Audio.hpp>
 # include <memory>
 # include <random>
 # include <set>
@@ -11,6 +12,8 @@ class Window {
 public:
     sf::RenderWindow window;
     sf::Texture tileset;
+    sf::SoundBuffer rotateBuffer, pieceLandBuffer, scoreBuffer, gameOverBuffer;
+    sf::Sound rotateSound, pieceLandSound, scoreSound, gameOverSound;
     sf::Font roboto;
     sf::Text scoreText;
     sf::Text gameOverText;
@@ -35,6 +38,16 @@ public:
         tileset.loadFromFile("../assets/textures/blocks.png");
         roboto.loadFromFile("../assets/fonts/Roboto-Regular.ttf");
         tileset.setSmooth(true);
+
+        rotateBuffer.loadFromFile("../assets/sounds/rotate.wav");
+        pieceLandBuffer.loadFromFile("../assets/sounds/piece-land.wav");
+        scoreBuffer.loadFromFile("../assets/sounds/score.wav");
+        gameOverBuffer.loadFromFile("../assets/sounds/game-over.wav");
+
+        rotateSound.setBuffer(rotateBuffer);
+        pieceLandSound.setBuffer(pieceLandBuffer);
+        scoreSound.setBuffer(scoreBuffer);
+        gameOverSound.setBuffer(gameOverBuffer);
 
         initializeText();
 
@@ -130,7 +143,10 @@ public:
         onHold->move(WIDTH, BLOCK_SIZE * 3);
         switched = false;
 
-        if (board->checkCollision(*t)) isOver = true;
+        if (board->checkCollision(*t)) {
+            isOver = true;
+            gameOverSound.play();
+        }
     }
 
     bool movePiece(Direction direction) {
@@ -140,10 +156,15 @@ public:
 
         if (board->checkCollision(*t) || t->isAtFloor()) {
             t->setPosition(previous);
-            if (direction == DOWN)
-                score += board->update(*t), newPiece();
+            if (direction == DOWN) {
+                int points = board->update(*t);
+                points ? scoreSound.play() : pieceLandSound.play();
+                score += points;
+                newPiece();
+            }
             moved = false;
         }
+
         return moved;
     }
 
@@ -154,6 +175,8 @@ public:
             if (direction == RIGHT) t->matrixRotate(LEFT);
             if (direction == LEFT) t->matrixRotate(RIGHT);
         }
+
+        rotateSound.play();
     }
 
     void performHardDrop() {
