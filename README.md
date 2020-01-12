@@ -1,4 +1,7 @@
 # Building Instructions
+
+You must have SFML installed in your system
+
 In order to build the project, open the terminal in the root directory and do as
 follows:
 
@@ -24,6 +27,8 @@ You can execute the game with `./main`.
 * [SFML](https://www.sfml-dev.org/index.php)
 
 Textures from https://opengameart.org/content/coloured-squares-cubes
+
+Sounds from http://www.downloadfreesound.com/8-bit-sound-effects/
 
 # License
 Licensed under MIT. See [LICENSE](LICENSE) for details.
