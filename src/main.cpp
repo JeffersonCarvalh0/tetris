@@ -12,8 +12,13 @@ class Window {
 public:
     sf::RenderWindow window;
     sf::Texture tileset;
+
+    // Buffers de sons
     sf::SoundBuffer rotateBuffer, pieceLandBuffer, scoreBuffer, gameOverBuffer;
+
+    // Variáveis dos sons
     sf::Sound rotateSound, pieceLandSound, scoreSound, gameOverSound;
+
     sf::Font roboto;
     sf::Text scoreText;
     sf::Text gameOverText;
@@ -39,11 +44,13 @@ public:
         roboto.loadFromFile("../assets/fonts/Roboto-Regular.ttf");
         tileset.setSmooth(true);
 
+        // Carregando os arquios de sons
         rotateBuffer.loadFromFile("../assets/sounds/rotate.wav");
         pieceLandBuffer.loadFromFile("../assets/sounds/piece-land.wav");
         scoreBuffer.loadFromFile("../assets/sounds/score.wav");
         gameOverBuffer.loadFromFile("../assets/sounds/game-over.wav");
 
+        // Setando as variáveis dos sons com os buffers
         rotateSound.setBuffer(rotateBuffer);
         pieceLandSound.setBuffer(pieceLandBuffer);
         scoreSound.setBuffer(scoreBuffer);
@@ -145,6 +152,8 @@ public:
 
         if (board->checkCollision(*t)) {
             isOver = true;
+
+            // Executa o som de game over
             gameOverSound.play();
         }
     }
@@ -158,6 +167,11 @@ public:
             t->setPosition(previous);
             if (direction == DOWN) {
                 int points = board->update(*t);
+
+                /*
+                 * Se o jogador fez algum ponto, toca o som de pontuação,
+                 * caso contrário, toca o som de peça sendo aterrisada
+                 * */
                 points ? scoreSound.play() : pieceLandSound.play();
                 score += points;
                 newPiece();
@@ -176,6 +190,7 @@ public:
             if (direction == LEFT) t->matrixRotate(RIGHT);
         }
 
+        // Toca o som de rotação
         rotateSound.play();
     }
 
