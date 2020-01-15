@@ -1,9 +1,8 @@
 # Building Instructions
 
-You must have SFML installed in your system
+É necessário ter a biblioteca SFML instalada no seu sistema
 
-In order to build the project, open the terminal in the root directory and do as
-follows:
+Para compilar o projeto, abra o terminal no diretório raiz e execute os comandos:
 
 ``` shell
 mkdir build && cd build
@@ -11,24 +10,24 @@ cmake ..
 make
 ```
 
-You can execute the game with `./main`.
+Você pode executar o jogo com `./main`.
 
-# Controls
-* A - Move to the left
-* D - Move to the right
-* S - Move down
-* W - Hold tetrimino
-* Q - Rotate counterclockwise
-* E - Rotate clockwise
-* Space - Hard drop
-* Esc - Close the game
+# Controles
+* A - Mover para a direita
+* D - Mover para a esquerda
+* S - Mover para baixo
+* W - Segurar o tetrimino
+* Q - Rotacionar o tetrimino no sentido anti-horário
+* E - Rotacionar o tetrimino no sentido horário
+* Espaço - Hard drop
+* Esc - Fechar o jogo
 
-# Built with
+# Construído com
 * [SFML](https://www.sfml-dev.org/index.php)
 
-Textures from https://opengameart.org/content/coloured-squares-cubes
+Texturas: https://opengameart.org/content/coloured-squares-cubes
 
-Sounds from http://www.downloadfreesound.com/8-bit-sound-effects/
+Sons: http://www.downloadfreesound.com/8-bit-sound-effects/
 
-# License
-Licensed under MIT. See [LICENSE](LICENSE) for details.
+# Licença
+A licença utilizada é a MIT. Veja [LICENSE](LICENSE) para mais detalhes.
